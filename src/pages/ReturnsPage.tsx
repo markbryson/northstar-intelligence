@@ -1,0 +1,14 @@
+import { Ban, CircleDollarSign, PackageX, RotateCcw } from "lucide-react";
+import { api } from "../api/client";
+import { useDashboard } from "../context/DashboardContext";
+import { useApi } from "../hooks/useAnalytics";
+import { MetricCard } from "../components/ui/MetricCard";
+import { Panel } from "../components/ui/Panel";
+import { ErrorState, LoadingState } from "../components/ui/States";
+import { formatCurrency, number, percent } from "../utils/format";
+
+export function ReturnsPage() {
+  const { filters } = useDashboard();
+  const returns = useApi(() => api.returns(filters), [filters.startDate, filters.endDate, filters.country]);
+  return <div className="page-stack"><div className="page-intro"><div><p className="eyebrow">Leakage & recovery</p><h2>Returns, made visible.</h2><p>Separate return value, returned units, and cancellations without hiding the underlying transaction behavior.</p></div></div>{returns.error ? <ErrorState message={returns.error} onRetry={returns.retry} /> : returns.isLoading || !returns.data ? <LoadingState label="Loading returns analytics" /> : <><div className="metric-grid metric-grid-compact"><MetricCard label="Return value" value={formatCurrency(returns.data.return_value)} detail={`${percent(returns.data.return_rate)} of valid transaction rows`} icon={CircleDollarSign} accent="rose" /><MetricCard label="Returned units" value={number.format(returns.data.returned_quantity)} detail="Negative quantity rows" icon={PackageX} accent="amber" /><MetricCard label="Cancellations" value={number.format(returns.data.cancellation_count)} detail={formatCurrency(returns.data.cancellation_value)} icon={Ban} accent="blue" /><MetricCard label="Transaction-row return rate" value={percent(returns.data.return_rate)} detail={`${number.format(returns.data.returned_transaction_rows)} flagged rows`} icon={RotateCcw} accent="cyan" /></div><div className="grid-two-thirds"><Panel eyebrow="Metric definitions" title="Keep the denominator visible"><div className="definition-list"><div><span className="definition-number">01</span><p><strong>Return value</strong>The API's `return_amount`, including cancellations.</p></div><div><span className="definition-number">02</span><p><strong>Returned units</strong>The absolute quantity on negative-quantity rows.</p></div><div><span className="definition-number">03</span><p><strong>Transaction-row return rate</strong>Returned or cancelled transaction rows divided by valid transaction rows in scope.</p></div></div></Panel><Panel eyebrow="Guardrail" title="No margin claims"><div className="context-callout"><Ban size={20} /><div><strong>Cost data is not available</strong><p>This dataset contains selling prices only, so return reporting stays focused on revenue value and units. Profit and margin are intentionally not shown.</p></div></div></Panel></div></>}</div>;
+}
