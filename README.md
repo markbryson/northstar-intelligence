@@ -225,7 +225,7 @@ Monitor return value, returned units, cancellations, and the transaction-row ret
 
 Not yet implemented:
 
-- Add curated dashboard screenshots and a short walkthrough for portfolio review.
+- Add an interactive product walkthrough or demonstration video.
 - Add richer product/customer drill-down and export workflows.
 - Add automated data-quality summary reporting for ingestion runs.
 - Evaluate a production-oriented database and persistent hosting model for multi-user deployment.
