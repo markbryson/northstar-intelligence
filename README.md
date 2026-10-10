@@ -1,10 +1,10 @@
 # Northstar Intelligence
 
-Northstar Intelligence is a retail and e-commerce business intelligence platform for turning a large historical transaction archive into decision-ready commercial insight. It combines a validated SQLite data layer, a FastAPI analytics service, and a React dashboard that demonstrates how sales performance, returns, products, customers, and geographic markets can be explored through consistent filters and clearly defined KPIs.
+**[Live Demo](https://northstar-intelligence.pages.dev/)** · [Backend API](https://northstar-intelligence.onrender.com/) · [GitHub repository](https://github.com/markbryson/northstar-intelligence)
 
-This is a portfolio project built for analytics and data science workflows. It is an historical reporting application, not a live sales system.
+Northstar Intelligence is a retail and e-commerce business intelligence platform for turning a large historical transaction archive into practical commercial insight. It helps users explore sales performance, product results, customer behavior, geographic markets, and returns through consistent filters and clearly defined KPIs.
 
-[View the Northstar Intelligence repository on GitHub](https://github.com/markbryson/northstar-intelligence)
+The platform analyzes approximately **1.03 million retail transactions** from the historical UCI Online Retail II dataset. It is a historical analytics application, not a live-sales system.
 
 ## Features
 
@@ -22,8 +22,27 @@ All six pages share date and country filters and display loading, empty, and ret
 ## Technology stack
 
 - **Backend:** Python, FastAPI, Uvicorn, Pandas, SQLite
-- **Frontend:** React, TypeScript, Tailwind CSS, Recharts, Lucide React, Vite
+- **Frontend:** React, TypeScript, Vite, Tailwind CSS, Recharts, Lucide React
 - **Testing:** Pytest and HTTPX for backend endpoint and ingestion tests; TypeScript checks and a production frontend build
+
+## Deployment architecture
+
+```text
+Cloudflare Pages (React/Vite frontend)
+              │
+              ▼
+Render (FastAPI backend) ─── SQLite analytics database
+              ▲
+              │
+GitHub Releases (deployment database asset)
+```
+
+- Cloudflare Pages hosts the production frontend.
+- Render hosts the FastAPI backend.
+- SQLite provides the read-only analytics data used by the API.
+- GitHub Releases hosts the compact deployment database asset, keeping the large database out of the Git repository.
+
+Render's free instance may take time to wake after inactivity, so the first request can be slower than subsequent requests.
 
 ## Key insights
 
