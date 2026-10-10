@@ -108,10 +108,13 @@ Copy `.env.example` to `.env` only when local overrides are needed. The applicat
 | `PROJECT_NAME` | FastAPI project name | `Business Intelligence Analytics Platform` |
 | `APP_VERSION` | Application version | `0.1.0` |
 | `DATABASE_PATH` | SQLite database path | `data/database/retail.db` |
+| `DATABASE_READ_ONLY` | Open the configured SQLite database in read-only mode | `false` |
 | `CORS_ORIGINS` | Comma-separated allowed frontend origins | Localhost ports used by development and preview |
 | `VITE_API_BASE_URL` | Frontend API origin | `http://127.0.0.1:8000` |
 
 Do not commit `.env` files or credentials. The frontend defaults to `http://127.0.0.1:8000` when `VITE_API_BASE_URL` is not provided; for the documented Windows workflow, set `VITE_API_BASE_URL=http://127.0.0.1:8000` if an explicit override is needed.
+
+For a production deployment using the compact database, set `DATABASE_PATH=data/database/retail_deployment.db` and `DATABASE_READ_ONLY=true`. Read-only mode uses SQLite URI access and prevents the backend health check and analytics connections from creating or modifying the database.
 
 ## Analytics API
 

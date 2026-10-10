@@ -43,7 +43,11 @@ def health_check() -> JSONResponse:
     from backend.database import connect_database
 
     try:
-        connection = connect_database(settings.database_path, initialize_schema=False)
+        connection = connect_database(
+            settings.database_path,
+            initialize_schema=False,
+            read_only=settings.database_read_only,
+        )
         try:
             connection.execute("SELECT 1 FROM transactions LIMIT 1").fetchone()
         finally:

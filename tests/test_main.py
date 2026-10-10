@@ -63,6 +63,26 @@ def test_health_endpoint_reports_missing_database_without_creating_it(tmp_path, 
     assert not missing_path.exists()
 
 
+def test_health_endpoint_supports_read_only_database(tmp_path, monkeypatch) -> None:
+    database_path = tmp_path / "retail.db"
+    connection = connect_database(database_path)
+    connection.close()
+    monkeypatch.setattr(
+        main_module,
+        "settings",
+        replace(
+            main_module.settings,
+            database_path=str(database_path),
+            database_read_only=True,
+        ),
+    )
+
+    response = client.get("/api/health")
+
+    assert response.status_code == 200
+    assert response.json() == {"status": "healthy", "service": "backend"}
+
+
 def test_analytics_missing_database_returns_structured_error(tmp_path, monkeypatch) -> None:
     missing_path = tmp_path / "missing.db"
     monkeypatch.setattr(

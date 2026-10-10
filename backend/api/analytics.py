@@ -31,7 +31,11 @@ def _database_unavailable() -> HTTPException:
 
 def get_db() -> sqlite3.Connection:
     try:
-        connection = connect_database(settings.database_path, initialize_schema=False)
+        connection = connect_database(
+            settings.database_path,
+            initialize_schema=False,
+            read_only=settings.database_read_only,
+        )
     except (OSError, sqlite3.Error) as error:
         raise _database_unavailable() from error
     try:

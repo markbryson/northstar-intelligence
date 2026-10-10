@@ -54,15 +54,22 @@ def connect_database(
     database_path: str | Path,
     *,
     initialize_schema: bool = True,
+    read_only: bool = False,
 ) -> sqlite3.Connection:
-    """Connect to SQLite, optionally creating the database and applying the schema."""
+    """Connect to SQLite with optional schema initialization or read-only access."""
     path = Path(database_path)
+    if read_only and initialize_schema:
+        raise ValueError("Read-only connections cannot initialize the database schema")
     if initialize_schema:
         path.parent.mkdir(parents=True, exist_ok=True)
     elif not path.is_file():
         raise FileNotFoundError("Analytics database file is unavailable")
 
-    connection = sqlite3.connect(path, check_same_thread=False)
+    if read_only:
+        uri = f"{path.resolve().as_uri()}?mode=ro"
+        connection = sqlite3.connect(uri, uri=True, check_same_thread=False)
+    else:
+        connection = sqlite3.connect(path, check_same_thread=False)
     connection.row_factory = sqlite3.Row
     connection.execute("PRAGMA foreign_keys = ON")
     if initialize_schema:
