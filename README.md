@@ -185,7 +185,41 @@ vite.config.ts  Vite configuration and local API proxy
 
 ## Dashboard screenshots
 
-Screenshots will be added here in a future documentation pass. No image files are currently included in the repository.
+### Overview Dashboard
+
+Executive KPIs, sales trends, returns context, top products, and leading countries in one decision-ready view.
+
+![Overview Dashboard](docs/screenshots/overview.png)
+
+### Sales Analytics
+
+Explore gross sales, net sales, completed orders, transaction rows, and revenue trends across selectable time granularities.
+
+![Sales Analytics](docs/screenshots/sales.png)
+
+### Product Performance
+
+Review the top loaded products by net revenue or units sold, with search across product codes and descriptions.
+
+![Product Performance](docs/screenshots/products.png)
+
+### Customer Analytics
+
+Understand known customers, repeat customers, customer revenue, and the top customer leaderboard.
+
+![Customer Analytics](docs/screenshots/customers.png)
+
+### Geographic Performance
+
+Compare source-level country performance through the top markets ranked by net revenue.
+
+![Geographic Performance](docs/screenshots/geography.png)
+
+### Returns Analysis
+
+Monitor return value, returned units, cancellations, and the transaction-row return rate with its denominator clearly defined.
+
+![Returns Analysis](docs/screenshots/returns.png)
 
 ## Future improvements
 
