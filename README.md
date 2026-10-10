@@ -99,6 +99,24 @@ npm.cmd run preview -- --host 127.0.0.1 --port 4173
 
 The dashboard is available at [http://127.0.0.1:4173](http://127.0.0.1:4173). `npm.cmd run dev` is not the primary Windows startup method for this project because the current environment has a Vite development-server dependency-optimization/filesystem resolution issue. The production preview workflow is the verified local dashboard workflow.
 
+## Render deployment
+
+The deployment database is downloaded from the public GitHub Release asset during the Render build and is not committed to GitHub. Configure the Render service with:
+
+**Build Command**
+
+```text
+pip install -r requirements.txt && python scripts/download_deployment_db.py
+```
+
+**Start Command**
+
+```text
+uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+```
+
+Set `DATABASE_PATH=data/database/retail_deployment.db` and `DATABASE_READ_ONLY=true` in the Render environment. Set `CORS_ORIGINS` to the deployed frontend origin and build the frontend with `VITE_API_BASE_URL` pointing to the Render backend URL.
+
 ## Environment variables
 
 Copy `.env.example` to `.env` only when local overrides are needed. The application reads:
